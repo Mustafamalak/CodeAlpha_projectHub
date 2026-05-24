@@ -37,4 +37,20 @@ const protect = async (req, res, next) => {
     }
 };
 
-module.exports = { protect };
+const isProjectMember = (project, userId) => {
+    if (!project || !project.members) return false;
+    return project.members.some(
+        (member) => (member._id || member).toString() === userId.toString()
+    );
+};
+
+const isProjectOwner = (project, userId) => {
+    if (!project || !project.owner) return false;
+    return (project.owner._id || project.owner).toString() === userId.toString();
+};
+
+module.exports = {
+    protect,
+    isProjectMember,
+    isProjectOwner,
+};

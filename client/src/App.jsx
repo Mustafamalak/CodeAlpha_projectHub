@@ -1,73 +1,60 @@
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
-
-const Placeholder = ({ title }) => {
-  return (
-    <main className="page">
-      <section className="container card" style={{ padding: "34px" }}>
-        <span className="badge">ProjectHub</span>
-
-        <h1
-          style={{
-            marginTop: "14px",
-            fontSize: "46px",
-            letterSpacing: "-0.06em",
-          }}
-        >
-          {title}
-        </h1>
-
-        <p style={{ marginTop: "10px", color: "#64748b", lineHeight: "1.7" }}>
-          This page will be completed in the next step.
-        </p>
-      </section>
-    </main>
-  );
-};
+import Navbar from "./components/Navbar.jsx";
+import Home from "./pages/Home.jsx";
+import Login from "./pages/Login.jsx";
+import Signup from "./pages/Signup.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
+import Projects from "./pages/Projects.jsx";
+import ProjectDetails from "./pages/ProjectDetails.jsx";
+import MyTasks from "./pages/MyTasks.jsx";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Placeholder title="Home Page" />} />
-      <Route path="/login" element={<Placeholder title="Login Page" />} />
-      <Route path="/signup" element={<Placeholder title="Signup Page" />} />
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Placeholder title="Dashboard Page" />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/projects"
-        element={
-          <ProtectedRoute>
-            <Placeholder title="Projects Page" />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/projects"
+          element={
+            <ProtectedRoute>
+              <Projects />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/projects/:id"
-        element={
-          <ProtectedRoute>
-            <Placeholder title="Project Details Page" />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/projects/:id"
+          element={
+            <ProtectedRoute>
+              <ProjectDetails />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/my-tasks"
-        element={
-          <ProtectedRoute>
-            <Placeholder title="My Tasks Page" />
-          </ProtectedRoute>
-        }
-      />
-    </Routes>
+        <Route
+          path="/my-tasks"
+          element={
+            <ProtectedRoute>
+              <MyTasks />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </>
   );
 }
 
