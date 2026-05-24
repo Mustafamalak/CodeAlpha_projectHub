@@ -1,8 +1,14 @@
 const Loader = ({ text = "Loading..." }) => {
     return (
-        <div className="loader-card">
-            <div className="loader-dot" />
-            <span>{text}</span>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "80px 0" }}>
+            <div className="loader-card">
+                <div className="loader-dots">
+                    <div className="loader-dot" />
+                    <div className="loader-dot" />
+                    <div className="loader-dot" />
+                </div>
+                <span>{text}</span>
+            </div>
         </div>
     );
 };

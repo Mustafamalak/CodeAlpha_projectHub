@@ -39,6 +39,14 @@ const userSchema = new mongoose.Schema(
             type: String,
             default: "Team Member",
         },
+
+        resetPasswordToken: {
+            type: String,
+        },
+
+        resetPasswordExpire: {
+            type: Date,
+        },
     },
     { timestamps: true }
 );

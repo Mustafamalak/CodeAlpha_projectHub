@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
-import { FolderPlus, CheckSquare, TrendingUp, MessageSquare, ArrowRight, ShieldCheck, Zap } from "lucide-react";
+import { FolderPlus, CheckSquare, TrendingUp, MessageSquare, ArrowRight, Zap, KanbanSquare, KeyRound } from "lucide-react";
 import "./Home.css";
 
 const Home = () => {
@@ -46,6 +46,29 @@ const Home = () => {
                         </>
                     )}
                 </div>
+
+                {/* Demo credentials — only for logged-out visitors */}
+                {!user && (
+                    <div className="demo-credentials-card">
+                        <div className="demo-label">
+                            <KeyRound size={13} />
+                            <span>Try Demo</span>
+                        </div>
+                        <div className="demo-divider" />
+                        <div className="demo-field">
+                            <span className="demo-field-label">Email</span>
+                            <span className="demo-field-value">alice@example.com</span>
+                        </div>
+                        <div className="demo-divider" />
+                        <div className="demo-field">
+                            <span className="demo-field-label">Password</span>
+                            <span className="demo-field-value">123456</span>
+                        </div>
+                        <Link to="/login" className="demo-login-link">
+                            Login now →
+                        </Link>
+                    </div>
+                )}
 
                 <div className="hero-dashboard-preview card">
                     <div className="preview-header">

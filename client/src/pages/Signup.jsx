@@ -60,7 +60,7 @@ const Signup = () => {
             });
             navigate("/dashboard");
         } catch (err) {
-            setError(err.response?.data?.message || "Registration failed. User may already exist.");
+            setError(err.response?.data?.message || "Registration failed. Please check your details and try again.");
         }
     };
 
