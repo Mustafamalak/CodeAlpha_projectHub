@@ -1,28 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
-import { KanbanSquare, Mail, Lock, ArrowRight } from "lucide-react";
+import { KanbanSquare, ArrowRight } from "lucide-react";
 import "./Auth.css";
 
 const Login = () => {
-    const { login, loading } = useAuth();
+    const { user, login, loading } = useAuth();
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
+    // Redirect to dashboard if already logged in
+    useEffect(() => {
+        if (user) {
+            navigate("/dashboard", { replace: true });
+        }
+    }, [user, navigate]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
 
-        if (!email || !password) {
+        if (!email.trim() || !password) {
             setError("Please fill in all fields.");
             return;
         }
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setError("Please enter a valid email address.");
+            return;
+        }
+
         try {
-            await login({ email, password });
+            await login({ email: email.trim(), password });
             navigate("/dashboard");
         } catch (err) {
             setError(err.response?.data?.message || "Invalid email or password.");

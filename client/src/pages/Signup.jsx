@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { KanbanSquare, ArrowRight } from "lucide-react";
 import "./Auth.css";
 
 const Signup = () => {
-    const { signup, loading } = useAuth();
+    const { user, signup, loading } = useAuth();
     const navigate = useNavigate();
 
     const [name, setName] = useState("");
@@ -14,17 +14,35 @@ const Signup = () => {
     const [position, setPosition] = useState("");
     const [error, setError] = useState("");
 
+    // Redirect to dashboard if already logged in
+    useEffect(() => {
+        if (user) {
+            navigate("/dashboard", { replace: true });
+        }
+    }, [user, navigate]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
 
-        if (!name || !email || !password) {
+        if (!name.trim() || !email.trim() || !password) {
             setError("Please fill in all required fields.");
             return;
         }
 
         if (name.trim().length < 2) {
             setError("Name must be at least 2 characters long.");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setError("Please enter a valid email address.");
+            return;
+        }
+
+        if (position.trim() && position.trim().length < 2) {
+            setError("Position must be at least 2 characters long if entered.");
             return;
         }
 
@@ -35,10 +53,10 @@ const Signup = () => {
 
         try {
             await signup({
-                name,
-                email,
+                name: name.trim(),
+                email: email.trim(),
                 password,
-                position: position || undefined,
+                position: position.trim() || undefined,
             });
             navigate("/dashboard");
         } catch (err) {
@@ -94,21 +112,15 @@ const Signup = () => {
                         <label className="form-label" htmlFor="position">
                             Job Position (Optional)
                         </label>
-                        <select
+                        <input
+                            type="text"
                             id="position"
                             className="input"
+                            placeholder="e.g. Frontend Developer"
                             value={position}
                             onChange={(e) => setPosition(e.target.value)}
                             disabled={loading}
-                            style={{ appearance: "none" }}
-                        >
-                            <option value="">Select your position</option>
-                            <option value="Project Manager">Project Manager</option>
-                            <option value="Frontend Developer">Frontend Developer</option>
-                            <option value="Backend Developer">Backend Developer</option>
-                            <option value="UI/UX Designer">UI/UX Designer</option>
-                            <option value="QA Engineer">QA Engineer</option>
-                        </select>
+                        />
                     </div>
 
                     <div className="form-group">
